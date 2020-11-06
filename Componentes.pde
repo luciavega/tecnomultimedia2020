@@ -1,0 +1,89 @@
+class Componentes {
+  int cantEspacios = 8;
+  int cantFlores = 8;
+  int tamX, tamY, posX;
+  int fotosRestantes = 200;
+  int [][] fotosFlores = new int [cantEspacios][cantFlores];
+
+  PImage alga;
+  PImage finall;
+  PImage buzo;
+
+  Componentes() {
+
+    posX = 0;
+    tamX = width / cantEspacios;
+    tamY = height / 8;
+
+    alga= loadImage("alga.png");
+    finall = loadImage("final.png");
+    buzo = loadImage("buzo.png");
+  }
+
+  //personaje
+  void dibujarPersonaje() {
+    image(buzo, posX, height - tamY, tamX, tamY);
+  }
+
+  void moverPersonaje() {
+    if (keyCode == LEFT) {
+      posX = posX - tamX;
+    } else if (keyCode == RIGHT) {
+      posX = posX + tamX;
+    }
+  }
+
+  //reinicio de minijuego
+  void clickReinicio() {
+    if (fotosRestantes <= 0) {
+      if (mouseX > 0 && mouseX < width && mouseY >0 && mouseY < height ) {
+        loop();
+        background(255);
+        fotosRestantes = 200;
+        for (int cc = 0; cc < cantEspacios; cc++) {
+          for (int ca = 0; ca < cantFlores; ca++) {
+            fotosFlores[cc][ca] = round(random(-2000 * (ca + 1), -2000 * ca));
+          }
+        }
+      }
+    }
+  }
+  
+  //flores
+  void inicializarFlores() {
+    for (int cc = 0; cc < cantEspacios; cc++) {
+      for (int ca = 0; ca < cantFlores; ca++) {
+        fotosFlores[cc][ca] = round(random(-2000 * (ca + 1), -2000 * ca));
+      }
+    }
+  }
+  
+  void dibujarFlores() {
+
+    textSize(20);
+    textAlign(CENTER);
+    fill(0);
+    text("¡Apresurate y \n toma fotografias!\n" + fotosRestantes, width/2, 100);
+
+    for (int cc = 0; cc < cantEspacios; cc++) {
+      for (int ca = 0; ca < cantFlores; ca++) {
+        fotosFlores[cc][ca]+=2;
+        fill(150);
+        image(alga, cc * tamX, fotosFlores[cc][ca], tamX, tamY);
+        if (dist(cc * tamX, fotosFlores[cc][ca], posX, height - tamY) < tamX) {
+          fotosRestantes = fotosRestantes - 1;
+        }
+        if (fotosRestantes <= 0) {
+          background(0);
+          fill(255);
+          textSize(20);
+          textAlign(CENTER);
+          text("¡Enhorabuena, lo \n lograste! \n Hora de volver\n al barco. :)", width/2, 250); 
+          textSize(15);
+          text("Haz click \n en la pantalla \n para reiniciar", width/2, 400); 
+          image(finall, 650, 450, 150, 150);
+        }
+      }
+    }
+  }
+}
