@@ -63,7 +63,7 @@ class Componentes {
     textSize(20);
     textAlign(CENTER);
     fill(0);
-    text("¡Apresurate y \n toma fotografias!\n" + fotosRestantes, width/2, 100);
+    text("¡Cuanta vegetación! \n Toma varias fotografías \n para poder volver \n a la superficie. \n" + fotosRestantes, width/2, 100);
 
     for (int cc = 0; cc < cantEspacios; cc++) {
       for (int ca = 0; ca < cantFlores; ca++) {
